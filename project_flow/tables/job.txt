@@ -1,0 +1,44 @@
+TABLE: JOBS
+Collection Name: jobs
+
+Description:
+This collection stores all job postings created by recruiters. Jobs must be approved by admin before appearing on the website.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name       | Type      | Description
+---------------------------------------------------------------------------
+_id              | ObjectId  | Unique job ID
+jobtitle         | String    | Job title (required)
+experience       | String    | Experience required (e.g., '2+ years')
+jobdescription   | String    | Job description (required)
+postedBy         | ObjectId  | Reference to recruiter who posted the job
+location         | String    | Job location (required)
+salary           | String    | Salary info (formatted text like '₹50k/month')
+category         | String    | Job type: 'Private', 'Government', 'Internship'
+jobposteddate    | Date      | Post creation date (default: current date)
+link             | String    | External or internal application link
+status           | String    | Job status: 'pending', 'approved', 'rejected' (default: 'pending')
+---------------------------------------------------------------------------
+
+Relationships:
+- postedBy field references recruiters collection (_id)
+- Admin approves/rejects jobs by updating status
+
+Job Status Flow:
+1. Recruiter posts job → status = 'pending'
+2. Admin reviews job
+3. Admin approves → status = 'approved' (visible on website)
+   OR Admin rejects → status = 'rejected' (not visible)
+
+Indexes:
+- status (for filtering approved jobs)
+- category (for filtering by job type)
+- location (for location-based search)
+- postedBy (for recruiter's job listings)
+
+Filtering Options:
+- By location
+- By category (Private/Government/Internship)
+- By salary range
+- By status (for admin/recruiter views)

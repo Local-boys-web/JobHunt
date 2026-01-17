@@ -1,0 +1,49 @@
+FORM: Job Approval Form
+Component: JobApproval.jsx
+Location: frontend/src/pages/admin/JobApproval.jsx
+
+Purpose:
+Allows admin to view pending jobs and approve or reject them.
+
+Display Fields (Read-only):
+---------------------------------------------------------------------------
+Field Name       | Description
+---------------------------------------------------------------------------
+jobtitle         | Job title
+experience       | Required experience
+jobdescription   | Full job description
+location         | Job location
+salary           | Salary information
+category         | Job type (Private/Government/Internship)
+postedBy         | Recruiter/Company name (from recruiters collection)
+jobposteddate    | Date when job was posted
+link             | Application link
+status           | Current status (should be 'pending')
+---------------------------------------------------------------------------
+
+Action Buttons:
+1. View - Opens modal/page with full job details
+2. Approve - Updates job status to 'approved'
+3. Reject - Updates job status to 'rejected'
+
+Functionality:
+1. Fetch all jobs with status='pending' from backend
+2. Display jobs in table/card format
+3. Admin clicks "View" to see full details
+4. Admin clicks "Approve":
+   - Send PUT request to /api/admin/jobs/:jobId/approve
+   - Update status to 'approved'
+   - Job becomes visible on main website
+   - Remove from pending list
+   - Show success message
+5. Admin clicks "Reject":
+   - Send PUT request to /api/admin/jobs/:jobId/reject
+   - Update status to 'rejected'
+   - Job not visible on website
+   - Remove from pending list
+   - Show success message
+
+Display Format:
+- Table or card layout
+- Pagination if many pending jobs
+- Search/filter by job title, company, location

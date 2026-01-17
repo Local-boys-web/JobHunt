@@ -1,0 +1,49 @@
+FORM: Recruiter Registration Form
+Component: RecruiterRegister.jsx
+Location: frontend/src/pages/recruiter/RecruiterRegister.jsx
+
+Purpose:
+Allows companies/recruiters to register and create an account to post jobs.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name    | Type      | Validation                  | Required
+---------------------------------------------------------------------------
+name          | text      | Min 3 characters            | Yes
+email         | email     | Valid email format, unique  | Yes
+password      | password  | Min 6 characters            | Yes
+confirmPassword| password | Must match password         | Yes
+contactno     | text      | 10 digits                   | Yes
+address       | textarea  | Min 10 characters           | No
+---------------------------------------------------------------------------
+
+Functionality:
+1. Recruiter fills registration form
+2. Validate all required fields
+3. Check if password matches confirmPassword
+4. Send POST request to /api/recruiter/register
+5. Backend checks if email already exists
+6. If exists: return error "Recruiter with this email already exists"
+7. If not: hash password and create new recruiter
+8. Store data in recruiters collection
+9. On success: redirect to recruiter login page
+10. On error: display appropriate error message
+
+Error Messages:
+- "All required fields must be filled"
+- "Email must be valid"
+- "Password must be at least 6 characters"
+- "Passwords do not match"
+- "Contact number must be 10 digits"
+- "Recruiter with this email already exists"
+- "Registration failed, please try again"
+
+Success Message:
+- "Registration successful! Please login to continue"
+- Redirect to /recruiter/login
+
+Validation:
+- Email format validation
+- Password strength check
+- Contact number must be numeric and 10 digits
+- Address is optional but if provided, min 10 characters

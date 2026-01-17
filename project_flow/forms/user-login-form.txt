@@ -1,0 +1,44 @@
+FORM: User Login Form
+Component: UserLogin.jsx
+Location: frontend/src/pages/user/UserLogin.jsx
+
+Purpose:
+Allows registered users to log in and access job application features.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name    | Type      | Validation                  | Required
+---------------------------------------------------------------------------
+email         | email     | Valid email format          | Yes
+password      | password  | Min 6 characters            | Yes
+---------------------------------------------------------------------------
+
+Functionality:
+1. User enters email and password
+2. Form validates input fields
+3. Sends POST request to backend: /api/user/login
+4. Backend checks if user exists in database
+5. If exists: validates password and returns JWT token
+6. If not exists: returns error "User not found"
+7. On success: store token in localStorage and redirect to home page
+8. On error: display appropriate error message
+
+Error Messages:
+- "Email is required"
+- "Password is required"
+- "Invalid email format"
+- "User not found"
+- "Invalid password"
+- "Something went wrong, please try again"
+
+Success Flow:
+- JWT token stored in localStorage
+- Store user data in localStorage/context
+- Redirect to home page (/)
+- User can now apply for jobs
+- User authenticated for protected features
+
+Additional Features:
+- "Forgot Password" link (optional)
+- "Don't have an account? Register" link to registration page
+- Remember me checkbox (optional)

@@ -1,0 +1,54 @@
+FORM: Post Job Form
+Component: PostJob.jsx
+Location: frontend/src/pages/recruiter/PostJob.jsx
+
+Purpose:
+Allows recruiters to create and post new job listings. Jobs require admin approval before becoming visible.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name       | Type      | Validation                  | Required
+---------------------------------------------------------------------------
+jobtitle         | text      | Min 5 characters            | Yes
+experience       | text      | e.g., "2+ years", "Fresher" | Yes
+jobdescription   | textarea  | Min 50 characters           | Yes
+location         | text      | Min 3 characters            | Yes
+salary           | text      | e.g., "₹50k/month"          | Yes
+category         | select    | Private/Government/Internship| Yes
+link             | url       | Valid URL format            | Yes
+---------------------------------------------------------------------------
+
+Functionality:
+1. Recruiter fills job posting form
+2. All fields validated before submission
+3. postedBy field automatically set to logged-in recruiter's ID
+4. status automatically set to 'pending'
+5. jobposteddate automatically set to current date
+6. Send POST request to /api/jobs/create
+7. Backend validates and stores job in jobs collection
+8. On success: show success message and redirect to "My Jobs"
+9. On error: display error message
+
+Category Options:
+- Private
+- Government
+- Internship
+
+Error Messages:
+- "All fields are required"
+- "Job title must be at least 5 characters"
+- "Job description must be at least 50 characters"
+- "Location is required"
+- "Please select a job category"
+- "Invalid URL format for application link"
+- "Failed to post job, please try again"
+
+Success Message:
+- "Job posted successfully! Waiting for admin approval."
+- Redirect to /recruiter/my-jobs
+
+Notes:
+- Job status starts as 'pending'
+- Job not visible on website until admin approves
+- Recruiter can see job in "My Jobs" section immediately
+- postedBy field links to recruiter's _id from token

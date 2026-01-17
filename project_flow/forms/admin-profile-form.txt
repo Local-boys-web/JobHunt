@@ -1,0 +1,55 @@
+FORM: Admin Profile Form
+Component: AdminProfile.jsx
+Location: frontend/src/pages/admin/AdminProfile.jsx
+
+Purpose:
+Allows admin to view and update their profile details and change password.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name       | Type      | Validation                  | Required | Editable
+---------------------------------------------------------------------------
+name             | text      | Min 3 characters            | Yes      | Yes
+email            | email     | Valid email format          | Yes      | Yes
+currentPassword  | password  | Min 6 characters            | Optional | Yes
+newPassword      | password  | Min 6 characters            | Optional | Yes
+confirmPassword  | password  | Must match newPassword      | Optional | Yes
+---------------------------------------------------------------------------
+
+Functionality:
+
+Profile Update:
+1. Load current admin data on page load
+2. Pre-fill name and email fields
+3. Admin can update name and email
+4. Send PUT request to /api/admin/profile
+5. On success: update localStorage data and show success message
+6. On error: display error message
+
+Password Update:
+1. Admin fills currentPassword, newPassword, confirmPassword
+2. Validate that newPassword matches confirmPassword
+3. Send PUT request to /api/admin/change-password
+4. Backend verifies currentPassword
+5. If valid: hash newPassword and update
+6. If invalid: return error "Current password is incorrect"
+7. On success: show success message
+8. On error: display error message
+
+Display:
+- Show current admin name and email
+- Password fields only shown in password change section
+- Separate update buttons for profile and password
+
+Error Messages:
+- "Name is required"
+- "Email is required"
+- "Invalid email format"
+- "Current password is incorrect"
+- "New password must be at least 6 characters"
+- "Passwords do not match"
+- "Failed to update profile"
+
+Success Messages:
+- "Profile updated successfully"
+- "Password changed successfully"

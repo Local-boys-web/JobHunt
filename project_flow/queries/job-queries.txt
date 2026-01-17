@@ -1,0 +1,233 @@
+JOB API QUERIES & ENDPOINTS
+
+Base URL: /api/jobs
+
+=============================================================================
+1. GET ALL APPROVED JOBS (PUBLIC)
+=============================================================================
+Endpoint: GET /api/jobs
+Description: Get all approved jobs for public viewing
+Middleware: None (public endpoint)
+
+Query Parameters:
+- location (optional): Filter by location
+- category (optional): Filter by category (Private/Government/Internship)
+- minSalary (optional): Filter by minimum salary
+- maxSalary (optional): Filter by maximum salary
+- search (optional): Search in job title or description
+- page (optional): Page number for pagination (default: 1)
+- limit (optional): Jobs per page (default: 20)
+
+Database Query:
+- Find all jobs where status = 'approved'
+- Apply filters if query parameters provided
+- Populate postedBy field with recruiter name and contact
+- Sort by jobposteddate (newest first)
+- Implement pagination
+
+Example Request:
+GET /api/jobs?category=Private&location=Mumbai&page=1&limit=20
+
+Response Success (200):
+{
+  "success": true,
+  "jobs": [
+    {
+      "_id": "...",
+      "jobtitle": "Software Developer",
+      "experience": "2+ years",
+      "jobdescription": "We are looking for...",
+      "location": "Mumbai",
+      "salary": "₹50k/month",
+      "category": "Private",
+      "link": "https://apply.example.com/job123",
+      "jobposteddate": "2025-01-15",
+      "postedBy": {
+        "_id": "...",
+        "name": "Tech Company",
+        "contactno": "9876543210"
+      }
+    }
+  ],
+  "total": 150,
+  "page": 1,
+  "pages": 8
+}
+
+=============================================================================
+2. GET SINGLE JOB DETAILS (PUBLIC)
+=============================================================================
+Endpoint: GET /api/jobs/:jobId
+Description: Get detailed information about a specific job
+Middleware: None (public endpoint)
+
+Database Query:
+- Find job by _id where status = 'approved'
+- Populate postedBy field with full recruiter details
+
+Response Success (200):
+{
+  "success": true,
+  "job": {
+    "_id": "...",
+    "jobtitle": "Software Developer",
+    "experience": "2+ years",
+    "jobdescription": "Full detailed description...",
+    "location": "Mumbai",
+    "salary": "₹50k/month",
+    "category": "Private",
+    "link": "https://apply.example.com/job123",
+    "jobposteddate": "2025-01-15",
+    "postedBy": {
+      "_id": "...",
+      "name": "Tech Company",
+      "email": "company@example.com",
+      "contactno": "9876543210",
+      "address": "123 Street, Mumbai"
+    }
+  }
+}
+
+Response Error (404):
+{
+  "success": false,
+  "message": "Job not found"
+}
+
+=============================================================================
+3. SEARCH JOBS (PUBLIC)
+=============================================================================
+Endpoint: GET /api/jobs/search
+Description: Advanced search for jobs with multiple filters
+Middleware: None (public endpoint)
+
+Query Parameters:
+- q (optional): Search query (searches in title and description)
+- location (optional): Filter by location
+- category (optional): Filter by category
+- experience (optional): Filter by experience level
+- page (optional): Page number
+- limit (optional): Results per page
+
+Database Query:
+- Find jobs where status = 'approved'
+- Use regex search on jobtitle and jobdescription if 'q' provided
+- Apply all filters
+- Sort by relevance or date
+- Paginate results
+
+Example Request:
+GET /api/jobs/search?q=developer&location=Mumbai&category=Private
+
+Response Success (200):
+{
+  "success": true,
+  "jobs": [...],
+  "total": 45,
+  "page": 1,
+  "pages": 3
+}
+
+=============================================================================
+4. GET JOBS BY CATEGORY (PUBLIC)
+=============================================================================
+Endpoint: GET /api/jobs/category/:category
+Description: Get all jobs of a specific category
+Middleware: None (public endpoint)
+
+URL Parameters:
+- category: 'Private' or 'Government' or 'Internship'
+
+Database Query:
+- Find all jobs where status = 'approved' AND category = :category
+- Sort by jobposteddate (newest first)
+- Paginate results
+
+Response Success (200):
+{
+  "success": true,
+  "category": "Private",
+  "jobs": [...],
+  "total": 120
+}
+
+=============================================================================
+5. GET JOBS BY LOCATION (PUBLIC)
+=============================================================================
+Endpoint: GET /api/jobs/location/:location
+Description: Get all jobs in a specific location
+Middleware: None (public endpoint)
+
+Database Query:
+- Find all jobs where status = 'approved' AND location contains :location
+- Use case-insensitive search
+- Sort by jobposteddate (newest first)
+- Paginate results
+
+Response Success (200):
+{
+  "success": true,
+  "location": "Mumbai",
+  "jobs": [...],
+  "total": 85
+}
+
+=============================================================================
+6. GET FEATURED/LATEST JOBS (PUBLIC)
+=============================================================================
+Endpoint: GET /api/jobs/latest
+Description: Get most recent approved jobs for homepage
+Middleware: None (public endpoint)
+
+Query Parameters:
+- limit (optional): Number of jobs to return (default: 10)
+
+Database Query:
+- Find jobs where status = 'approved'
+- Sort by jobposteddate (newest first)
+- Limit to specified number
+- Populate postedBy
+
+Response Success (200):
+{
+  "success": true,
+  "jobs": [...],
+  "total": 10
+}
+
+=============================================================================
+7. GET AVAILABLE LOCATIONS (PUBLIC)
+=============================================================================
+Endpoint: GET /api/jobs/filters/locations
+Description: Get all unique job locations for filter dropdown
+Middleware: None (public endpoint)
+
+Database Query:
+- Get distinct locations from jobs where status = 'approved'
+- Sort alphabetically
+
+Response Success (200):
+{
+  "success": true,
+  "locations": ["Mumbai", "Delhi", "Bangalore", "Pune", ...]
+}
+
+=============================================================================
+8. GET JOBS COUNT BY CATEGORY (PUBLIC)
+=============================================================================
+Endpoint: GET /api/jobs/stats/categories
+Description: Get job counts for each category
+Middleware: None (public endpoint)
+
+Database Queries:
+- Count jobs by category where status = 'approved'
+
+Response Success (200):
+{
+  "success": true,
+  "stats": {
+    "Private": 1200,
+    "Government": 450,
+    "Internship": 350
+  }
+}

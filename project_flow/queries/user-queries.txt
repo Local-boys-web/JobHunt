@@ -1,0 +1,176 @@
+USER API QUERIES & ENDPOINTS
+
+Base URL: /api/user
+
+=============================================================================
+1. USER REGISTRATION
+=============================================================================
+Endpoint: POST /api/user/register
+Description: Register new user/job seeker account
+
+Request Body:
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "contactno": "9876543210"
+}
+
+Database Query:
+- Check if user with email already exists
+- Hash password using bcrypt
+- Insert new user into users collection
+
+Response Success (201):
+{
+  "success": true,
+  "message": "Registration successful",
+  "user": {
+    "_id": "...",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "contactno": "9876543210"
+  }
+}
+
+Response Error (400):
+{
+  "success": false,
+  "message": "User with this email already exists"
+}
+
+=============================================================================
+2. USER LOGIN
+=============================================================================
+Endpoint: POST /api/user/login
+Description: Authenticate user and return JWT token
+
+Request Body:
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+Database Query:
+- Find user by email in users collection
+- Compare hashed password using bcrypt
+- Generate JWT token with user _id
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "_id": "...",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "contactno": "9876543210"
+  }
+}
+
+Response Error (400/401):
+{
+  "success": false,
+  "message": "User not found" / "Invalid password"
+}
+
+=============================================================================
+3. UPDATE USER PROFILE
+=============================================================================
+Endpoint: PUT /api/user/profile
+Description: Update user information
+Middleware: verifyUser (checks JWT token)
+
+Request Body:
+{
+  "name": "John Updated",
+  "email": "johnupdated@example.com",
+  "contactno": "9876543210"
+}
+
+Database Query:
+- Update user where _id = userId from token
+- Update name, email, contactno fields
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Profile updated successfully",
+  "user": {
+    "_id": "...",
+    "name": "John Updated",
+    "email": "johnupdated@example.com",
+    "contactno": "9876543210"
+  }
+}
+
+=============================================================================
+4. CHANGE USER PASSWORD
+=============================================================================
+Endpoint: PUT /api/user/change-password
+Description: Change user password
+Middleware: verifyUser
+
+Request Body:
+{
+  "currentPassword": "oldpass",
+  "newPassword": "newpass"
+}
+
+Database Query:
+- Find user by _id from token
+- Verify currentPassword using bcrypt
+- Hash newPassword
+- Update password field
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Password changed successfully"
+}
+
+Response Error (400):
+{
+  "success": false,
+  "message": "Current password is incorrect"
+}
+
+=============================================================================
+5. DELETE USER ACCOUNT
+=============================================================================
+Endpoint: DELETE /api/user/delete
+Description: Delete user account permanently
+Middleware: verifyUser
+
+Database Query:
+- Delete user where _id = userId from token
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Account deleted successfully"
+}
+
+=============================================================================
+6. GET USER PROFILE
+=============================================================================
+Endpoint: GET /api/user/profile
+Description: Get logged-in user's profile
+Middleware: verifyUser
+
+Database Query:
+- Find user by _id from token
+- Exclude password field
+
+Response Success (200):
+{
+  "success": true,
+  "user": {
+    "_id": "...",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "contactno": "9876543210",
+    "createdAt": "2025-01-01"
+  }
+}

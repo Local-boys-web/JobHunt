@@ -1,0 +1,34 @@
+TABLE: USERS
+Collection Name: users
+
+Description:
+This collection stores all registered job seeker/user data. Users can browse jobs, apply for jobs, and manage their profile.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name    | Type      | Description
+---------------------------------------------------------------------------
+_id           | ObjectId  | Unique user ID
+name          | String    | Full name (required)
+email         | String    | Login email (unique, required)
+password      | String    | Hashed password (required)
+contactno     | String    | Direct contact number (stored as string)
+createdAt     | Date      | Registration timestamp (default: current date)
+---------------------------------------------------------------------------
+
+Relationships:
+- Users can view and apply for approved jobs
+- No direct reference in jobs collection (applications may be external links)
+
+Indexes:
+- email (unique index for login)
+
+Security Notes:
+- Password must be hashed using bcrypt
+- Email validation required
+- Contact number stored as string to preserve formatting
+
+Guest User Behavior:
+- Unregistered users can browse and view jobs
+- Must register/login to apply for jobs
+- Prompt to login/register appears when guest clicks "Apply"

@@ -1,0 +1,278 @@
+RECRUITER API QUERIES & ENDPOINTS
+
+Base URL: /api/recruiter
+
+=============================================================================
+1. RECRUITER REGISTRATION
+=============================================================================
+Endpoint: POST /api/recruiter/register
+Description: Register new recruiter/company account
+
+Request Body:
+{
+  "name": "Tech Company",
+  "email": "company@example.com",
+  "password": "password123",
+  "contactno": "9876543210",
+  "address": "123 Street, City"
+}
+
+Database Query:
+- Check if recruiter with email already exists
+- Hash password using bcrypt
+- Insert new recruiter into recruiters collection
+
+Response Success (201):
+{
+  "success": true,
+  "message": "Registration successful",
+  "recruiter": {
+    "_id": "...",
+    "name": "Tech Company",
+    "email": "company@example.com",
+    "contactno": "9876543210",
+    "address": "123 Street, City"
+  }
+}
+
+Response Error (400):
+{
+  "success": false,
+  "message": "Recruiter with this email already exists"
+}
+
+=============================================================================
+2. RECRUITER LOGIN
+=============================================================================
+Endpoint: POST /api/recruiter/login
+Description: Authenticate recruiter and return JWT token
+
+Request Body:
+{
+  "email": "company@example.com",
+  "password": "password123"
+}
+
+Database Query:
+- Find recruiter by email in recruiters collection
+- Compare hashed password using bcrypt
+- Generate JWT token with recruiter _id
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "recruiter": {
+    "_id": "...",
+    "name": "Tech Company",
+    "email": "company@example.com",
+    "contactno": "9876543210",
+    "address": "123 Street, City"
+  }
+}
+
+Response Error (400/401):
+{
+  "success": false,
+  "message": "Recruiter not found" / "Invalid password"
+}
+
+=============================================================================
+3. GET RECRUITER DASHBOARD STATS
+=============================================================================
+Endpoint: GET /api/recruiter/dashboard
+Description: Get job statistics for recruiter dashboard
+Middleware: verifyRecruiter (checks JWT token)
+
+Database Queries:
+- Count total jobs by recruiter: db.jobs.countDocuments({ postedBy: recruiterId })
+- Count pending jobs: db.jobs.countDocuments({ postedBy: recruiterId, status: 'pending' })
+- Count approved jobs: db.jobs.countDocuments({ postedBy: recruiterId, status: 'approved' })
+- Count rejected jobs: db.jobs.countDocuments({ postedBy: recruiterId, status: 'rejected' })
+
+Response Success (200):
+{
+  "success": true,
+  "stats": {
+    "totalJobs": 50,
+    "pendingJobs": 10,
+    "approvedJobs": 35,
+    "rejectedJobs": 5
+  }
+}
+
+=============================================================================
+4. POST A JOB
+=============================================================================
+Endpoint: POST /api/jobs/create
+Description: Create new job posting (requires admin approval)
+Middleware: verifyRecruiter
+
+Request Body:
+{
+  "jobtitle": "Software Developer",
+  "experience": "2+ years",
+  "jobdescription": "We are looking for...",
+  "location": "Mumbai",
+  "salary": "₹50k/month",
+  "category": "Private",
+  "link": "https://apply.example.com/job123"
+}
+
+Database Query:
+- Insert new job into jobs collection
+- postedBy = recruiterId from token
+- status = 'pending' (default)
+- jobposteddate = current date
+
+Response Success (201):
+{
+  "success": true,
+  "message": "Job posted successfully. Waiting for admin approval.",
+  "job": {
+    "_id": "...",
+    "jobtitle": "Software Developer",
+    "status": "pending",
+    ...
+  }
+}
+
+=============================================================================
+5. GET MY JOBS
+=============================================================================
+Endpoint: GET /api/recruiter/my-jobs
+Description: Get all jobs posted by logged-in recruiter
+Middleware: verifyRecruiter
+
+Database Query:
+- Find all jobs where postedBy = recruiterId from token
+- Sort by jobposteddate (newest first)
+- Include all statuses: pending, approved, rejected
+
+Response Success (200):
+{
+  "success": true,
+  "jobs": [
+    {
+      "_id": "...",
+      "jobtitle": "Software Developer",
+      "experience": "2+ years",
+      "location": "Mumbai",
+      "salary": "₹50k/month",
+      "category": "Private",
+      "status": "pending",
+      "jobposteddate": "2025-01-15"
+    }
+  ]
+}
+
+=============================================================================
+6. UPDATE JOB
+=============================================================================
+Endpoint: PUT /api/jobs/:jobId
+Description: Update existing job (may require re-approval)
+Middleware: verifyRecruiter
+
+Request Body:
+{
+  "jobtitle": "Updated Title",
+  "experience": "3+ years",
+  ...
+}
+
+Database Query:
+- Find job where _id = jobId AND postedBy = recruiterId
+- Update job fields
+- Optional: Reset status to 'pending' for re-approval
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Job updated successfully. Pending admin approval.",
+  "job": {...}
+}
+
+Response Error (404):
+{
+  "success": false,
+  "message": "Job not found or unauthorized"
+}
+
+=============================================================================
+7. DELETE JOB
+=============================================================================
+Endpoint: DELETE /api/jobs/:jobId
+Description: Delete job posted by recruiter
+Middleware: verifyRecruiter
+
+Database Query:
+- Delete job where _id = jobId AND postedBy = recruiterId
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Job deleted successfully"
+}
+
+Response Error (404):
+{
+  "success": false,
+  "message": "Job not found or unauthorized"
+}
+
+=============================================================================
+8. UPDATE COMPANY PROFILE
+=============================================================================
+Endpoint: PUT /api/recruiter/profile
+Description: Update company information
+Middleware: verifyRecruiter
+
+Request Body:
+{
+  "name": "Updated Company Name",
+  "contactno": "9876543210",
+  "address": "New Address"
+}
+
+Database Query:
+- Update recruiter where _id = recruiterId from token
+- Update name, contactno, address fields
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Profile updated successfully",
+  "recruiter": {...}
+}
+
+=============================================================================
+9. CHANGE PASSWORD
+=============================================================================
+Endpoint: PUT /api/recruiter/change-password
+Description: Change recruiter password
+Middleware: verifyRecruiter
+
+Request Body:
+{
+  "currentPassword": "oldpass",
+  "newPassword": "newpass"
+}
+
+Database Query:
+- Find recruiter by _id from token
+- Verify currentPassword using bcrypt
+- Hash newPassword
+- Update password field
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Password changed successfully"
+}
+
+Response Error (400):
+{
+  "success": false,
+  "message": "Current password is incorrect"
+}

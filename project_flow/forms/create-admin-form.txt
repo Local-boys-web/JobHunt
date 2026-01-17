@@ -1,0 +1,46 @@
+FORM: Create Admin Form
+Component: CreateAdmin.jsx
+Location: frontend/src/pages/admin/CreateAdmin.jsx
+
+Purpose:
+Allows existing admin to create new admin accounts. Admin registration is not public.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name    | Type      | Validation                  | Required
+---------------------------------------------------------------------------
+name          | text      | Min 3 characters            | Yes
+email         | email     | Valid email format, unique  | Yes
+password      | password  | Min 6 characters            | Yes
+confirmPassword| password | Must match password         | Yes
+---------------------------------------------------------------------------
+
+Functionality:
+1. Only logged-in admin can access this form
+2. Admin fills in new admin details
+3. Form validates all fields
+4. Checks if password matches confirmPassword
+5. Sends POST request to /api/admin/create
+6. Backend checks if email already exists
+7. If exists: return error "Admin with this email already exists"
+8. If not: hash password and create new admin
+9. On success: show success message and clear form
+10. On error: display appropriate error message
+
+Error Messages:
+- "All fields are required"
+- "Email must be valid"
+- "Password must be at least 6 characters"
+- "Passwords do not match"
+- "Admin with this email already exists"
+- "Failed to create admin"
+
+Success Message:
+- "New admin created successfully"
+- Form resets to empty state
+- Option to create another admin or go to dashboard
+
+Security:
+- Route must be protected (only accessible by logged-in admin)
+- Password hashed before storing
+- role field automatically set to 'admin'

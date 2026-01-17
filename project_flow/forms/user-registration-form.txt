@@ -1,0 +1,50 @@
+FORM: User Registration Form
+Component: UserRegister.jsx
+Location: frontend/src/pages/user/UserRegister.jsx
+
+Purpose:
+Allows job seekers to create an account to apply for jobs.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name       | Type      | Validation                  | Required
+---------------------------------------------------------------------------
+name             | text      | Min 3 characters            | Yes
+email            | email     | Valid email format, unique  | Yes
+password         | password  | Min 6 characters            | Yes
+confirmPassword  | password  | Must match password         | Yes
+contactno        | text      | 10 digits                   | Yes
+---------------------------------------------------------------------------
+
+Functionality:
+1. User fills registration form
+2. Validate all required fields
+3. Check if password matches confirmPassword
+4. Send POST request to /api/user/register
+5. Backend checks if email already exists
+6. If exists: return error "User with this email already exists"
+7. If not: hash password and create new user
+8. Store data in users collection
+9. On success: redirect to user login page
+10. On error: display appropriate error message
+
+Error Messages:
+- "All fields are required"
+- "Email must be valid"
+- "Password must be at least 6 characters"
+- "Passwords do not match"
+- "Contact number must be 10 digits"
+- "User with this email already exists"
+- "Registration failed, please try again"
+
+Success Message:
+- "Registration successful! Please login to continue"
+- Redirect to /user/login
+
+Validation:
+- Email format validation
+- Password strength check
+- Contact number must be numeric and 10 digits
+
+Additional Features:
+- "Already have an account? Login" link to login page

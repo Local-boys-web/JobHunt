@@ -1,0 +1,65 @@
+FORM: User Profile Form
+Component: UserProfile.jsx
+Location: frontend/src/pages/user/UserProfile.jsx
+
+Purpose:
+Allows users to view and update their profile information and change password.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name       | Type      | Validation                  | Required | Editable
+---------------------------------------------------------------------------
+name             | text      | Min 3 characters            | Yes      | Yes
+email            | email     | Valid email format          | Yes      | Yes
+contactno        | text      | 10 digits                   | Yes      | Yes
+currentPassword  | password  | Min 6 characters            | Optional | Yes
+newPassword      | password  | Min 6 characters            | Optional | Yes
+confirmPassword  | password  | Must match newPassword      | Optional | Yes
+---------------------------------------------------------------------------
+
+Functionality:
+
+Profile Update:
+1. Load current user data on page load
+2. Pre-fill name, email, and contactno fields
+3. User can update any of these fields
+4. Send PUT request to /api/user/profile
+5. On success: update localStorage/context data and show success message
+6. On error: display error message
+
+Password Update:
+1. User fills currentPassword, newPassword, confirmPassword
+2. Validate that newPassword matches confirmPassword
+3. Send PUT request to /api/user/change-password
+4. Backend verifies currentPassword
+5. If valid: hash newPassword and update
+6. If invalid: return error "Current password is incorrect"
+7. On success: show success message
+8. On error: display error message
+
+Delete Account (Optional):
+1. Provide "Delete Account" button
+2. Show confirmation dialog
+3. Send DELETE request to /api/user/delete
+4. On success: logout and redirect to home page
+5. On error: display error message
+
+Error Messages:
+- "Name is required"
+- "Email is required"
+- "Invalid email format"
+- "Contact number must be 10 digits"
+- "Current password is incorrect"
+- "New password must be at least 6 characters"
+- "Passwords do not match"
+- "Failed to update profile"
+
+Success Messages:
+- "Profile updated successfully"
+- "Password changed successfully"
+- "Account deleted successfully"
+
+Additional Features:
+- Logout button
+- Show registration date
+- Option to delete account

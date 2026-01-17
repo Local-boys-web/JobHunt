@@ -1,0 +1,13 @@
+Files to update:
+1. JobApproval.jsx
+2. AllJobs.jsx
+3. CompanyList.jsx
+4. UserList.jsx
+5. CreateAdmin.jsx
+
+Pattern:
+- Add: import Navbar
+- Add: import Dashboard.css
+- Add state: const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
+- Add function: const toggleSidebar = () => { setIsSidebarOpen(!isSidebarOpen); };
+- Wrap return with Navbar and Sidebar

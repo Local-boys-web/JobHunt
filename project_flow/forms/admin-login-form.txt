@@ -1,0 +1,37 @@
+FORM: Admin Login Form
+Component: AdminLogin.jsx
+Location: frontend/src/pages/admin/AdminLogin.jsx
+
+Purpose:
+Allows admin users to log in to the admin dashboard.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name    | Type      | Validation                  | Required
+---------------------------------------------------------------------------
+email         | email     | Valid email format          | Yes
+password      | password  | Min 6 characters            | Yes
+---------------------------------------------------------------------------
+
+Functionality:
+1. Admin enters email and password
+2. Form validates input fields
+3. Sends POST request to backend: /api/admin/login
+4. Backend checks if admin exists in database
+5. If exists: validates password and returns JWT token
+6. If not exists: returns error "Admin not found"
+7. On success: store token in localStorage and redirect to admin dashboard
+8. On error: display appropriate error message
+
+Error Messages:
+- "Email is required"
+- "Password is required"
+- "Invalid email format"
+- "Admin not found"
+- "Invalid password"
+- "Something went wrong, please try again"
+
+Success Flow:
+- JWT token stored in localStorage
+- Redirect to /admin/dashboard
+- Admin authenticated for protected routes

@@ -1,0 +1,295 @@
+ADMIN API QUERIES & ENDPOINTS
+
+Base URL: /api/admin
+
+=============================================================================
+1. ADMIN LOGIN
+=============================================================================
+Endpoint: POST /api/admin/login
+Description: Authenticate admin and return JWT token
+
+Request Body:
+{
+  "email": "admin@example.com",
+  "password": "password123"
+}
+
+Database Query:
+- Find admin by email in admins collection
+- Compare hashed password using bcrypt
+- Generate JWT token with admin _id and role
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "admin": {
+    "_id": "...",
+    "name": "Admin Name",
+    "email": "admin@example.com",
+    "role": "admin"
+  }
+}
+
+Response Error (400/401):
+{
+  "success": false,
+  "message": "Admin not found" / "Invalid password"
+}
+
+=============================================================================
+2. CREATE NEW ADMIN
+=============================================================================
+Endpoint: POST /api/admin/create
+Description: Create new admin account (protected route)
+Middleware: verifyAdmin (checks JWT token)
+
+Request Body:
+{
+  "name": "New Admin",
+  "email": "newadmin@example.com",
+  "password": "password123"
+}
+
+Database Query:
+- Check if admin with email already exists
+- Hash password using bcrypt
+- Insert new admin into admins collection with role='admin'
+
+Response Success (201):
+{
+  "success": true,
+  "message": "Admin created successfully",
+  "admin": {
+    "_id": "...",
+    "name": "New Admin",
+    "email": "newadmin@example.com",
+    "role": "admin"
+  }
+}
+
+Response Error (400):
+{
+  "success": false,
+  "message": "Admin with this email already exists"
+}
+
+=============================================================================
+3. GET DASHBOARD STATS
+=============================================================================
+Endpoint: GET /api/admin/dashboard
+Description: Get statistics for admin dashboard
+Middleware: verifyAdmin
+
+Database Queries:
+- Count total jobs: db.jobs.countDocuments({})
+- Count pending jobs: db.jobs.countDocuments({ status: 'pending' })
+- Count total companies: db.recruiters.countDocuments({})
+- Count total users: db.users.countDocuments({})
+
+Response Success (200):
+{
+  "success": true,
+  "stats": {
+    "totalJobs": 2000,
+    "pendingJobs": 200,
+    "totalCompanies": 20,
+    "totalUsers": 500
+  }
+}
+
+=============================================================================
+4. GET PENDING JOBS FOR APPROVAL
+=============================================================================
+Endpoint: GET /api/admin/jobs/pending
+Description: Get all pending jobs for approval
+Middleware: verifyAdmin
+
+Database Query:
+- Find all jobs with status='pending'
+- Populate postedBy field with recruiter name
+- Sort by jobposteddate (newest first)
+
+Response Success (200):
+{
+  "success": true,
+  "jobs": [
+    {
+      "_id": "...",
+      "jobtitle": "Software Developer",
+      "experience": "2+ years",
+      "location": "Mumbai",
+      "salary": "₹50k/month",
+      "category": "Private",
+      "status": "pending",
+      "postedBy": {
+        "_id": "...",
+        "name": "Tech Company"
+      },
+      "jobposteddate": "2025-01-15"
+    }
+  ]
+}
+
+=============================================================================
+5. APPROVE JOB
+=============================================================================
+Endpoint: PUT /api/admin/jobs/:jobId/approve
+Description: Approve a pending job
+Middleware: verifyAdmin
+
+Database Query:
+- Update job status to 'approved' where _id = jobId
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Job approved successfully"
+}
+
+=============================================================================
+6. REJECT JOB
+=============================================================================
+Endpoint: PUT /api/admin/jobs/:jobId/reject
+Description: Reject a pending job
+Middleware: verifyAdmin
+
+Database Query:
+- Update job status to 'rejected' where _id = jobId
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Job rejected successfully"
+}
+
+=============================================================================
+7. GET ALL JOBS
+=============================================================================
+Endpoint: GET /api/admin/jobs
+Description: Get all jobs (pending, approved, rejected)
+Middleware: verifyAdmin
+
+Database Query:
+- Find all jobs regardless of status
+- Populate postedBy field
+- Sort by jobposteddate (newest first)
+- Support pagination: skip and limit
+
+Response Success (200):
+{
+  "success": true,
+  "jobs": [...],
+  "total": 2000,
+  "page": 1,
+  "pages": 100
+}
+
+=============================================================================
+8. DELETE JOB
+=============================================================================
+Endpoint: DELETE /api/admin/jobs/:jobId
+Description: Delete a job permanently
+Middleware: verifyAdmin
+
+Database Query:
+- Delete job where _id = jobId
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Job deleted successfully"
+}
+
+=============================================================================
+9. GET ALL COMPANIES
+=============================================================================
+Endpoint: GET /api/admin/companies
+Description: Get all registered recruiters/companies
+Middleware: verifyAdmin
+
+Database Query:
+- Find all recruiters
+- Select fields: _id, name, email, contactno, address, createdAt
+- Sort by createdAt (newest first)
+
+Response Success (200):
+{
+  "success": true,
+  "companies": [...]
+}
+
+=============================================================================
+10. GET ALL USERS
+=============================================================================
+Endpoint: GET /api/admin/users
+Description: Get all registered users
+Middleware: verifyAdmin
+
+Database Query:
+- Find all users
+- Select fields: _id, name, email, contactno, createdAt
+- Exclude password field
+- Sort by createdAt (newest first)
+
+Response Success (200):
+{
+  "success": true,
+  "users": [...]
+}
+
+=============================================================================
+11. UPDATE ADMIN PROFILE
+=============================================================================
+Endpoint: PUT /api/admin/profile
+Description: Update admin name and email
+Middleware: verifyAdmin
+
+Request Body:
+{
+  "name": "Updated Name",
+  "email": "updated@example.com"
+}
+
+Database Query:
+- Update admin where _id = admin._id from token
+- Update name and email fields
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Profile updated successfully",
+  "admin": {...}
+}
+
+=============================================================================
+12. CHANGE ADMIN PASSWORD
+=============================================================================
+Endpoint: PUT /api/admin/change-password
+Description: Change admin password
+Middleware: verifyAdmin
+
+Request Body:
+{
+  "currentPassword": "oldpass",
+  "newPassword": "newpass"
+}
+
+Database Query:
+- Find admin by _id from token
+- Verify currentPassword using bcrypt
+- Hash newPassword
+- Update password field
+
+Response Success (200):
+{
+  "success": true,
+  "message": "Password changed successfully"
+}
+
+Response Error (400):
+{
+  "success": false,
+  "message": "Current password is incorrect"
+}

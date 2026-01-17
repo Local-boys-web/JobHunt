@@ -1,0 +1,42 @@
+FORM: Recruiter Login Form
+Component: RecruiterLogin.jsx
+Location: frontend/src/pages/recruiter/RecruiterLogin.jsx
+
+Purpose:
+Allows registered recruiters to log in to their dashboard.
+
+Fields:
+---------------------------------------------------------------------------
+Field Name    | Type      | Validation                  | Required
+---------------------------------------------------------------------------
+email         | email     | Valid email format          | Yes
+password      | password  | Min 6 characters            | Yes
+---------------------------------------------------------------------------
+
+Functionality:
+1. Recruiter enters email and password
+2. Form validates input fields
+3. Sends POST request to backend: /api/recruiter/login
+4. Backend checks if recruiter exists in database
+5. If exists: validates password and returns JWT token
+6. If not exists: returns error "Recruiter not found"
+7. On success: store token in localStorage and redirect to recruiter dashboard
+8. On error: display appropriate error message
+
+Error Messages:
+- "Email is required"
+- "Password is required"
+- "Invalid email format"
+- "Recruiter not found"
+- "Invalid password"
+- "Something went wrong, please try again"
+
+Success Flow:
+- JWT token stored in localStorage
+- Store recruiter data in localStorage/context
+- Redirect to /recruiter/dashboard
+- Recruiter authenticated for protected routes
+
+Additional Features:
+- "Forgot Password" link (optional)
+- "Don't have an account? Register" link to registration page
