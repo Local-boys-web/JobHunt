@@ -1,6 +1,6 @@
 // API Configuration - Change base URL here to update entire application
 export const API_CONFIG = {
-  BASE_URL: process.env.REACT_APP_API_URL || 'https://lastone-backend.onrender.com/api',
+  BASE_URL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
   TIMEOUT: 10000, // 10 seconds
 };
 
