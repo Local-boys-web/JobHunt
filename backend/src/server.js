@@ -15,7 +15,7 @@ connectDatabase();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://lastone-frontend.onrender.com',
+  origin: process.env.FRONTEND_URL || 'https://jobhunt-backend-1hjr.onrender.com',
   credentials: true
 }));
 app.use(express.json());
