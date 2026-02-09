@@ -44,15 +44,26 @@ const RecruiterRegister = () => {
     setLoading(true);
 
     try {
-      await recruiterService.register({
+      const response = await recruiterService.register({
         name: formData.name,
         email: formData.email,
         password: formData.password,
         contactno: formData.contactno,
         address: formData.address
       });
-      alert('Registration successful! Please login to continue.');
-      navigate('/recruiter/login');
+
+      // Check if email verification is required
+      if (response.requiresVerification) {
+        // Redirect to email verification page with email in state
+        navigate('/recruiter/verify-email', {
+          state: { email: formData.email },
+          replace: true
+        });
+      } else {
+        // Old flow - direct to login
+        alert('Registration successful! Please login to continue.');
+        navigate('/recruiter/login');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {

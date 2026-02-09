@@ -7,6 +7,7 @@ import Alert from '../../components/common/Alert';
 import '../../styles/Auth.css';
 
 const VerifyOTP = () => {
+  const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -14,12 +15,11 @@ const VerifyOTP = () => {
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email;
 
   useEffect(() => {
-    if (!email) {
-      navigate('/user/forgot-password');
-      return;
+    // Pre-fill email if passed from previous page
+    if (location.state?.email) {
+      setEmail(location.state.email);
     }
 
     // Countdown timer
@@ -34,7 +34,7 @@ const VerifyOTP = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [email, navigate]);
+  }, [location]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -46,6 +46,11 @@ const VerifyOTP = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
+
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
 
     if (!otp || otp.length !== 6) {
       setError('Please enter a valid 6-digit OTP');
@@ -92,13 +97,26 @@ const VerifyOTP = () => {
         <div className="auth-card">
           <div className="auth-header">
             <h1>Verify OTP</h1>
-            <p>Enter the 6-digit code sent to {email}</p>
+            <p>Enter the 6-digit code sent to your email</p>
           </div>
 
           {error && <Alert type="error" message={error} onClose={() => setError('')} />}
           {success && <Alert type="success" message={success} />}
 
           <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your registered email"
+                required
+                disabled={loading}
+              />
+            </div>
+
             <div className="form-group">
               <label htmlFor="otp">One-Time Password (OTP)</label>
               <input

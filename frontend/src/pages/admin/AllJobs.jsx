@@ -18,7 +18,7 @@ const AllJobs = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -90,6 +90,7 @@ const AllJobs = () => {
       <Sidebar
         links={sidebarLinks}
         userType="Admin"
+        userName={user?.name}
         isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
       />

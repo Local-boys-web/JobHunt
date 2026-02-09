@@ -14,6 +14,18 @@ const recruiterService = {
     return response.data;
   },
 
+  // Email Verification
+  verifyEmail: async (email, otp) => {
+    const response = await api.post(ENDPOINTS.RECRUITER.VERIFY_EMAIL, { email, otp });
+    return response.data;
+  },
+
+  // Resend Email Verification OTP
+  resendVerificationOTP: async (email) => {
+    const response = await api.post(ENDPOINTS.RECRUITER.RESEND_VERIFICATION_OTP, { email });
+    return response.data;
+  },
+
   // Get Dashboard Statistics
   getDashboardStats: async () => {
     const response = await api.get(ENDPOINTS.RECRUITER.DASHBOARD);

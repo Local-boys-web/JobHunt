@@ -11,7 +11,7 @@ import '../../styles/JobDetails.css';
 
 const JobDetails = () => {
   const { jobId } = useParams();
-  const { isAuthenticated, userType, logout } = useAuth();
+  const { isAuthenticated, userType, logout, user } = useAuth();
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -85,6 +85,7 @@ const JobDetails = () => {
           <Sidebar
             links={sidebarLinks}
             userType="User"
+            userName={user?.name}
             isOpen={isSidebarOpen}
             onToggle={toggleSidebar}
           />

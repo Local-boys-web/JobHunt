@@ -121,6 +121,7 @@ const UserProfile = () => {
       <Sidebar
         links={sidebarLinks}
         userType="User"
+        userName={user?.name}
         isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
       />

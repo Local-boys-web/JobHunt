@@ -15,7 +15,7 @@ const MyJobs = () => {
   const [success, setSuccess] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -82,6 +82,7 @@ const MyJobs = () => {
       <Sidebar
         links={sidebarLinks}
         userType="Recruiter"
+        userName={user?.name}
         isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
       />

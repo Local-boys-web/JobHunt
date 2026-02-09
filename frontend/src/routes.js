@@ -23,6 +23,7 @@ import AdminProfile from './pages/admin/AdminProfile';
 // Recruiter pages
 import RecruiterLogin from './pages/recruiter/RecruiterLogin';
 import RecruiterRegister from './pages/recruiter/RecruiterRegister';
+import RecruiterVerifyEmail from './pages/recruiter/VerifyEmail';
 import RecruiterDashboard from './pages/recruiter/RecruiterDashboard';
 import PostJob from './pages/recruiter/PostJob';
 import MyJobs from './pages/recruiter/MyJobs';
@@ -148,6 +149,7 @@ const AppRoutes = () => {
       {/* Recruiter Routes */}
       <Route path="/recruiter/login" element={<RecruiterLogin />} />
       <Route path="/recruiter/register" element={<RecruiterRegister />} />
+      <Route path="/recruiter/verify-email" element={<RecruiterVerifyEmail />} />
 
       {/* Recruiter Password Reset Routes */}
       <Route path="/recruiter/forgot-password" element={<RecruiterForgotPassword />} />

@@ -20,7 +20,7 @@ const CreateAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -85,7 +85,7 @@ const CreateAdmin = () => {
   return (
     <>
       <Navbar onSidebarToggle={toggleSidebar} showSidebarToggle={true} />
-      <Sidebar links={sidebarLinks} userType="Admin" isOpen={isSidebarOpen} onToggle={toggleSidebar} />
+      <Sidebar links={sidebarLinks} userType="Admin" userName={user?.name} isOpen={isSidebarOpen} onToggle={toggleSidebar} />
       <div className={`dashboard-layout ${isSidebarOpen ? 'with-sidebar' : ''}`}>
         <div className="dashboard-content">
         <div className="dashboard-header">
