@@ -111,6 +111,7 @@ const AdminProfile = () => {
       <Sidebar
         links={sidebarLinks}
         userType="Admin"
+        userName={user?.name}
         isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
       />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../../styles/Sidebar.css';
 
-const Sidebar = ({ links, userType, isOpen, onToggle }) => {
+const Sidebar = ({ links, userType, userName, isOpen, onToggle }) => {
   const location = useLocation();
   const [internalIsOpen, setInternalIsOpen] = useState(false);
 
@@ -35,8 +35,8 @@ const Sidebar = ({ links, userType, isOpen, onToggle }) => {
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h2>{userType} Panel</h2>
-          {userType === 'User' && (
-            <p className="sidebar-welcome">Welcome!</p>
+          {userName && (
+            <p className="sidebar-welcome">Welcome, {userName}!</p>
           )}
         </div>
         <nav className="sidebar-nav">

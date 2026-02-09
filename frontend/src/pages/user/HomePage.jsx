@@ -111,6 +111,7 @@ const HomePage = () => {
         <Sidebar
           links={sidebarLinks}
           userType={userType === 'admin' ? 'Admin' : userType === 'recruiter' ? 'Recruiter' : 'User'}
+          userName={user?.name}
           isOpen={isSidebarOpen}
           onToggle={toggleSidebar}
         />

@@ -14,7 +14,7 @@ const RecruiterDashboard = () => {
   const [error, setError] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -59,6 +59,7 @@ const RecruiterDashboard = () => {
       <Sidebar
         links={sidebarLinks}
         userType="Recruiter"
+        userName={user?.name}
         isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
       />

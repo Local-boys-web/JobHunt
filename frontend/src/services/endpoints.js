@@ -31,6 +31,10 @@ const ENDPOINTS = {
     PROFILE: '/recruiter/profile',
     CHANGE_PASSWORD: '/recruiter/change-password',
 
+    // Email Verification
+    VERIFY_EMAIL: '/recruiter/verify-email',
+    RESEND_VERIFICATION_OTP: '/recruiter/resend-verification-otp',
+
     // Password Reset
     FORGOT_PASSWORD: '/recruiter/forgot-password',
     VERIFY_OTP: '/recruiter/verify-otp',

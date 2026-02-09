@@ -108,6 +108,7 @@ const RecruiterProfile = () => {
       <Sidebar
         links={sidebarLinks}
         userType="Recruiter"
+        userName={user?.name}
         isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
       />

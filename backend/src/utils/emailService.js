@@ -50,62 +50,70 @@ const sendOTPEmail = async (email, otp, name) => {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: `"Job Portal" <${process.env.EMAIL_USER}>`,
+      from: `"JobHuntting" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: 'Password Reset OTP - Job Portal',
+      subject: 'Password Reset OTP - JobHuntting',
       html: `
         <!DOCTYPE html>
         <html>
         <head>
           <style>
             body {
-              font-family: Arial, sans-serif;
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
               line-height: 1.6;
               color: #333;
+              background-color: #f4f4f4;
+              margin: 0;
+              padding: 0;
             }
             .container {
               max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-              background-color: #f9f9f9;
-              border-radius: 10px;
+              margin: 40px auto;
+              background-color: #ffffff;
+              border-radius: 8px;
+              overflow: hidden;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             }
             .header {
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background-color: #2c3e50;
               color: white;
               padding: 30px;
               text-align: center;
-              border-radius: 10px 10px 0 0;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 24px;
+              font-weight: 600;
             }
             .content {
-              background: white;
-              padding: 30px;
-              border-radius: 0 0 10px 10px;
+              padding: 40px 30px;
             }
             .otp-box {
-              background: #f0f0f0;
-              border: 2px dashed #667eea;
-              border-radius: 8px;
-              padding: 20px;
+              background: #f8f9fa;
+              border: 2px solid #2c3e50;
+              border-radius: 6px;
+              padding: 25px;
               text-align: center;
-              margin: 20px 0;
+              margin: 30px 0;
             }
             .otp-code {
-              font-size: 32px;
-              font-weight: bold;
-              color: #667eea;
-              letter-spacing: 5px;
+              font-size: 36px;
+              font-weight: 700;
+              color: #2c3e50;
+              letter-spacing: 8px;
             }
-            .warning {
-              background: #fff3cd;
-              border-left: 4px solid #ffc107;
-              padding: 15px;
+            .info-text {
+              color: #666;
+              font-size: 14px;
               margin: 20px 0;
+              padding: 15px;
+              background-color: #f8f9fa;
               border-radius: 4px;
             }
             .footer {
               text-align: center;
-              margin-top: 20px;
+              padding: 20px;
+              background-color: #f8f9fa;
               color: #666;
               font-size: 12px;
             }
@@ -114,32 +122,28 @@ const sendOTPEmail = async (email, otp, name) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>Password Reset Request</h1>
+              <h1>JobHuntting</h1>
             </div>
             <div class="content">
+              <h2 style="color: #2c3e50; margin-top: 0;">Password Reset Request</h2>
               <p>Hello ${name},</p>
-              <p>We received a request to reset your password. Use the OTP below to reset your password:</p>
+              <p>We received a request to reset your password. Please use the verification code below:</p>
 
               <div class="otp-box">
                 <div class="otp-code">${otp}</div>
               </div>
 
-              <div class="warning">
-                <strong>⚠️ Important:</strong>
-                <ul style="margin: 10px 0;">
-                  <li>This OTP is valid for <strong>10 minutes</strong></li>
-                  <li>Do not share this OTP with anyone</li>
-                  <li>If you didn't request this, please ignore this email</li>
-                </ul>
+              <div class="info-text">
+                <strong>Important Information:</strong><br>
+                • This OTP is valid for 10 minutes<br>
+                • Do not share this code with anyone<br>
+                • If you didn't request this, please ignore this email
               </div>
 
-              <p>If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
-
-              <p>Best regards,<br>Job Portal Team</p>
+              <p>Best regards,<br><strong>JobHuntting Team</strong></p>
             </div>
             <div class="footer">
-              <p>This is an automated email. Please do not reply to this email.</p>
-              <p>&copy; ${new Date().getFullYear()} Job Portal. All rights reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} JobHuntting. All rights reserved.</p>
             </div>
           </div>
         </body>
@@ -178,46 +182,53 @@ const sendPasswordResetSuccessEmail = async (email, name) => {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: `"Job Portal" <${process.env.EMAIL_USER}>`,
+      from: `"JobHuntting" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: 'Password Reset Successful - Job Portal',
+      subject: 'Password Reset Successful - JobHuntting',
       html: `
         <!DOCTYPE html>
         <html>
         <head>
           <style>
             body {
-              font-family: Arial, sans-serif;
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
               line-height: 1.6;
               color: #333;
+              background-color: #f4f4f4;
+              margin: 0;
+              padding: 0;
             }
             .container {
               max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-              background-color: #f9f9f9;
-              border-radius: 10px;
+              margin: 40px auto;
+              background-color: #ffffff;
+              border-radius: 8px;
+              overflow: hidden;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             }
             .header {
-              background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+              background-color: #27ae60;
               color: white;
               padding: 30px;
               text-align: center;
-              border-radius: 10px 10px 0 0;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 24px;
+              font-weight: 600;
             }
             .content {
-              background: white;
-              padding: 30px;
-              border-radius: 0 0 10px 10px;
+              padding: 40px 30px;
+              text-align: center;
             }
             .success-icon {
-              font-size: 50px;
-              text-align: center;
+              font-size: 60px;
               margin: 20px 0;
             }
             .footer {
               text-align: center;
-              margin-top: 20px;
+              padding: 20px;
+              background-color: #f8f9fa;
               color: #666;
               font-size: 12px;
             }
@@ -226,19 +237,19 @@ const sendPasswordResetSuccessEmail = async (email, name) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>Password Reset Successful</h1>
+              <h1>JobHuntting</h1>
             </div>
             <div class="content">
               <div class="success-icon">✅</div>
+              <h2 style="color: #27ae60; margin-top: 0;">Password Reset Successful</h2>
               <p>Hello ${name},</p>
               <p>Your password has been successfully reset.</p>
               <p>You can now log in to your account using your new password.</p>
-              <p>If you didn't make this change, please contact our support team immediately.</p>
-              <p>Best regards,<br>Job Portal Team</p>
+              <p>If you didn't make this change, please contact support immediately.</p>
+              <p style="margin-top: 30px;">Best regards,<br><strong>JobHuntting Team</strong></p>
             </div>
             <div class="footer">
-              <p>This is an automated email. Please do not reply to this email.</p>
-              <p>&copy; ${new Date().getFullYear()} Job Portal. All rights reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} JobHuntting. All rights reserved.</p>
             </div>
           </div>
         </body>
@@ -281,62 +292,70 @@ const sendEmailVerificationOTP = async (email, otp, name) => {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: `"Job Portal" <${process.env.EMAIL_USER}>`,
+      from: `"JobHuntting" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: 'Verify Your Email - Job Portal',
+      subject: 'Verify Your Email - JobHuntting',
       html: `
         <!DOCTYPE html>
         <html>
         <head>
           <style>
             body {
-              font-family: Arial, sans-serif;
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
               line-height: 1.6;
               color: #333;
+              background-color: #f4f4f4;
+              margin: 0;
+              padding: 0;
             }
             .container {
               max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-              background-color: #f9f9f9;
-              border-radius: 10px;
+              margin: 40px auto;
+              background-color: #ffffff;
+              border-radius: 8px;
+              overflow: hidden;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             }
             .header {
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background-color: #3498db;
               color: white;
               padding: 30px;
               text-align: center;
-              border-radius: 10px 10px 0 0;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 24px;
+              font-weight: 600;
             }
             .content {
-              background: white;
-              padding: 30px;
-              border-radius: 0 0 10px 10px;
+              padding: 40px 30px;
             }
             .otp-box {
-              background: #f0f0f0;
-              border: 2px dashed #667eea;
-              border-radius: 8px;
-              padding: 20px;
+              background: #f8f9fa;
+              border: 2px solid #3498db;
+              border-radius: 6px;
+              padding: 25px;
               text-align: center;
-              margin: 20px 0;
+              margin: 30px 0;
             }
             .otp-code {
-              font-size: 32px;
-              font-weight: bold;
-              color: #667eea;
-              letter-spacing: 5px;
+              font-size: 36px;
+              font-weight: 700;
+              color: #3498db;
+              letter-spacing: 8px;
             }
-            .warning {
-              background: #e7f3ff;
-              border-left: 4px solid #2196F3;
-              padding: 15px;
+            .info-text {
+              color: #666;
+              font-size: 14px;
               margin: 20px 0;
+              padding: 15px;
+              background-color: #f8f9fa;
               border-radius: 4px;
             }
             .footer {
               text-align: center;
-              margin-top: 20px;
+              padding: 20px;
+              background-color: #f8f9fa;
               color: #666;
               font-size: 12px;
             }
@@ -345,33 +364,30 @@ const sendEmailVerificationOTP = async (email, otp, name) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>Welcome to Job Portal!</h1>
+              <h1>JobHuntting</h1>
             </div>
             <div class="content">
+              <h2 style="color: #3498db; margin-top: 0;">Welcome to JobHuntting!</h2>
               <p>Hello ${name},</p>
-              <p>Thank you for registering with Job Portal. Please verify your email address to complete your registration.</p>
+              <p>Thank you for registering. Please verify your email address using the code below:</p>
 
               <div class="otp-box">
-                <p style="margin: 0; font-size: 14px; color: #666;">Your Verification Code</p>
                 <div class="otp-code">${otp}</div>
               </div>
 
-              <div class="warning">
-                <strong>ℹ️ Important:</strong>
-                <ul style="margin: 10px 0;">
-                  <li>This OTP is valid for <strong>10 minutes</strong></li>
-                  <li>Do not share this OTP with anyone</li>
-                  <li>If you didn't register, please ignore this email</li>
-                </ul>
+              <div class="info-text">
+                <strong>Important Information:</strong><br>
+                • This OTP is valid for 10 minutes<br>
+                • Do not share this code with anyone<br>
+                • If you didn't register, please ignore this email
               </div>
 
-              <p>Once verified, you'll be able to post jobs and manage your recruitment process.</p>
+              <p>Once verified, you can start posting jobs and managing your recruitment process.</p>
 
-              <p>Best regards,<br>Job Portal Team</p>
+              <p>Best regards,<br><strong>JobHuntting Team</strong></p>
             </div>
             <div class="footer">
-              <p>This is an automated email. Please do not reply to this email.</p>
-              <p>&copy; ${new Date().getFullYear()} Job Portal. All rights reserved.</p>
+              <p>&copy; ${new Date().getFullYear()} JobHuntting. All rights reserved.</p>
             </div>
           </div>
         </body>

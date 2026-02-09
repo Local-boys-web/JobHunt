@@ -1,6 +1,6 @@
-# Job Portal Website
+# JobHuntting Website
 
-A full-stack Job Portal application built with React.js, Node.js, Express, and MongoDB Atlas.
+A full-stack JobHuntting application built with React.js, Node.js, Express, and MongoDB Atlas.
 
 ## Features
 

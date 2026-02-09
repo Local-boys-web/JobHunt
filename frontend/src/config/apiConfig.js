@@ -6,7 +6,7 @@ export const API_CONFIG = {
 
 // You can also add other configuration here
 export const APP_CONFIG = {
-  APP_NAME: 'Job Portal',
+  APP_NAME: 'JobHuntting',
   ITEMS_PER_PAGE: 20,
   MAX_FILE_SIZE: 5 * 1024 * 1024, // 5MB
 };
