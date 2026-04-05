@@ -43,7 +43,10 @@ const userService = {
 
   // Forgot Password - Request OTP
   forgotPassword: async (email) => {
-    const response = await api.post(ENDPOINTS.USER.FORGOT_PASSWORD, { email });
+    const response = await api.post(ENDPOINTS.USER.FORGOT_PASSWORD, { email }, {
+      timeout: 60000 // 10 seconds timeout for OTP request
+    });
+
     return response.data;
   },
 
