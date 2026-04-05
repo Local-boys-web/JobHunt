@@ -62,7 +62,6 @@ npm start
 
 1. Register a new recruiter account
 2. Check your email inbox for the verification OTP
-
 3. Emails will be sent from: "Job Portal <your-email@gmail.com>"
 
 ## Troubleshooting
