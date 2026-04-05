@@ -15,7 +15,11 @@ connectDatabase();
 
 // Middleware
 app.use(cors({
+<<<<<<< HEAD
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+=======
   origin: process.env.FRONTEND_URL || 'https://jobhunt-frontend-qg6c.onrender.com',
+>>>>>>> 85d9b8d3817a5b56bd4e6f1b41ce579d542c2eb3
   credentials: true
 }));
 app.use(express.json());
